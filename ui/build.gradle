@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.saucedemo'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.microsoft.playwright:playwright:1.44.0'
+    implementation 'org.slf4j:slf4j-api:2.0.13'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:2.0.13'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+    maxParallelForks = 3
+
+    systemProperty 'base.url', System.getenv('BASE_URL') ?: 'https:/www.saucedemo.com'
+    systemProperty 'headless', System.getenv('HEADLESS') ?: 'true'
+
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        showStandardStreams = true
+        exceptionFormat = 'full'
+    }
+
+    reports {
+        html.required = true
+        junitXml.required = true
+    }
+}
+
+tasks.register('installBrowsers', JavaExec) {
+    dependsOn 'classes'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.microsoft.playwright.CLI'
+    args = ['install', '--with-deps', 'chromium']
+}
