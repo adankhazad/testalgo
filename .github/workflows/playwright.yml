@@ -10,8 +10,10 @@ jobs:
   test:
     runs-on: ubuntu-22.04
     timeout-minutes: 15
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -20,13 +22,8 @@ jobs:
           distribution: 'temurin'
           cache: 'gradle'
 
-      - name: Fix Ubuntu 24.04 dependencies
+      - name: Install Playwright system dependencies
         run: |
-          sudo apt-get update
-          # Instalujemy bibliotekę z nowym sufiksem t64
-          sudo apt-get install -y libasound2t64
-          # Tworzymy "udawany" pakiet lub link, jeśli Playwright nadal by protestował
-          # Ale zazwyczaj samo zainstalowanie libasound2t64 wystarcza dla binarek
           sudo npx playwright install-deps chromium
 
       - name: Setup Gradle
@@ -35,12 +32,10 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Install browsers
-        # Dodajemy flagę, by Playwright nie próbował sam instalować zależności systemowych, 
-        # skoro zrobiliśmy to krok wyżej (opcjonalne, ale bezpieczniejsze)
+      - name: Install Playwright Browsers
         run: ./gradlew installBrowsers
 
-      - name: Run tests
+      - name: Run Playwright Tests
         run: ./gradlew test --stacktrace
 
       - name: Upload HTML report
