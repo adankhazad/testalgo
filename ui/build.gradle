@@ -43,3 +43,11 @@ tasks.register('installBrowsers', JavaExec) {
     mainClass = 'com.microsoft.playwright.CLI'
     args = ['install', '--with-deps', 'chromium']
 }
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    reports.html.required.set(true)
+}
