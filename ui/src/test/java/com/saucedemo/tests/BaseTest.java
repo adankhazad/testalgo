@@ -32,11 +32,24 @@ public abstract class BaseTest {
         browser = playwright.chromium().launch(new BrowserType.LaunchOptions()
                 .setHeadless(TestConfig.HEADLESS)
                 .setSlowMo((float) TestConfig.SLOW_MO));
+        // Global Setup: Authenticate once and save state
+        if (!Files.exists(TestConfig.STORAGE_STATE_PATH)) {
+            BrowserContext tempContext = browser.newContext();
+            Page tempPage = tempContext.newPage();
+            tempPage.navigate(TestConfig.BASE_URL);
+            tempPage.fill("#user-name", TestConfig.STANDARD_USER);
+            tempPage.fill("#password", TestConfig.PASSWORD);
+            tempPage.click("#login-button");
+            tempContext.storageState(new BrowserContext.StorageStateOptions()
+                    .setPath(TestConfig.STORAGE_STATE_PATH));
+            tempContext.close();
+        }
     }
 
     @BeforeEach
     void setup() {
         context = browser.newContext(new Browser.NewContextOptions()
+                .setStorageStatePath(TestConfig.STORAGE_STATE_PATH)
                 .setRecordVideoDir(Paths.get(TestConfig.SCREENSHOT_DIR))
                 .setRecordVideoSize(1280, 720));
 
