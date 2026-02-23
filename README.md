@@ -48,7 +48,7 @@ ReqRes API: `https://reqres.in/api/users?page=2`
 1. Install [k6](https://k6.io/).
 2. Run the load test from the project root, passing the required API key as an environment variable:
    ```bash
-   k6 run -e REQRES_API_KEY=your_actual_api_key performance/load-test.js
+   k6 run -e REQRES_API_KEY=your_actual_api_key perf/load-test.js
 HTML Report: Upon completion, the script automatically generates a highly readable report.html file in the root directory using the k6-reporter extension.
 
 Design Decisions & Assumptions
