@@ -9,6 +9,7 @@ import com.saucedemo.pages.InventoryPage;
 import com.saucedemo.pages.LoginPage;
 import org.junit.jupiter.api.*;
 
+import java.nio.file.Files;
 import java.nio.file.Paths;
 
 

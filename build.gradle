@@ -9,6 +9,14 @@ repositories {
     mavenCentral()
 }
 
+sourceSets {
+    test {
+        java {
+            srcDirs = ['.'] // Looks for 'com' package in the root folder
+        }
+    }
+}
+
 dependencies {
     implementation 'com.microsoft.playwright:playwright:1.44.0'
     implementation 'org.slf4j:slf4j-api:2.0.13'
@@ -24,6 +32,7 @@ test {
 
     systemProperty 'base.url', System.getenv('BASE_URL') ?: 'https:/www.saucedemo.com'
     systemProperty 'headless', System.getenv('HEADLESS') ?: 'true'
+    systemProperties(System.getProperties() as Map<String, ?>)
 
     testLogging {
         events 'passed', 'skipped', 'failed'
@@ -42,12 +51,4 @@ tasks.register('installBrowsers', JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'com.microsoft.playwright.CLI'
     args = ['install', '--with-deps', 'chromium']
-}
-
-tasks.test {
-    useJUnitPlatform()
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-    reports.html.required.set(true)
 }
