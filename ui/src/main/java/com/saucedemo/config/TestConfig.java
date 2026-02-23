@@ -7,7 +7,7 @@ public class TestConfig {
         public static final String STANDARD_USER = prop("standard.user", "STANDARD.USER", "standard_user");
         public static final String LOCKED_USER = prop("locked.user", "LOCKED_USER", "locked_out_user");
         public static final String PASSWORD = prop("password", "PASSWORD", "secret_sauce");
-        public static final boolean HEADLESS = Boolean.parseBoolean(prop("headless", "HEADLESS", "false"));
+        public static final boolean HEADLESS = Boolean.parseBoolean(prop("headless", "HEADLESS", "true"));
         public static final double  SLOW_MO      = Double.parseDouble( prop("slowmo",   "SLOW_MO",   "0"));
         public static final int     TIMEOUT      = Integer.parseInt(   prop("timeout",  "TIMEOUT",   "30000"));
         public static final String  SCREENSHOT_DIR = prop("screenshot.dir", "SCREENSHOT_DIR", "screenshots");

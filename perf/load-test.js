@@ -58,13 +58,13 @@ export function setup() {
 
 export function teardown(data) {
     if (data) {
-        console.log('Test accomplished. BASE URL : ${data.baseURL}');
+        console.log(`Test accomplished. BASE URL : ${data.baseURL}`);
         }
     }
 import { htmlReport } from "https://raw.githubusercontent.com/benc-uk/k6-reporter/main/dist/bundle.js";
 
 export function handleSummary(data) {
   return {
-    "report.html": htmlReport(data)
+    "perf_report.html": htmlReport(data)
   };
 }
