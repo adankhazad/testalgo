@@ -44,3 +44,7 @@ summary.html
 # --- Auth / Session Files ---
 auth.json
 ui-ts/auth.json
+
+perf_report.html
+package.json
+screenshots/
