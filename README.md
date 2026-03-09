@@ -1,11 +1,14 @@
 # testalgo
 # QA Assessment: Automation & Performance
 
-This repository contains the solution for the Senior Quality Engineer assessment. It demonstrates UI test automation using **Java, Playwright, JUnit 5, and Gradle**, alongside performance testing using **k6 (JavaScript)**.
+This repository contains a comprehensive solution for the Senior Quality Engineer assessment. It demonstrates a multi-stack approach to quality assurance:
 
+1.  **UI Automation (Java):** Legacy/Enterprise approach using Playwright, JUnit 5, and Gradle.
+2.  **UI Automation (TypeScript):** Modern approach using Playwright Native Test Runner and Fixtures.
+3.  **Performance Testing (k6):** JavaScript-based load testing with analysis.
 ---
 
-## Task 1: UI Automation (Java + Playwright)
+## Task 1 (Option A): UI Automation (Java + Playwright)
 
 ### Target Application
 SauceDemo: [https://www.saucedemo.com](https://www.saucedemo.com)
@@ -39,6 +42,46 @@ Page Object Model (POM): UI element locators and interactions are encapsulated w
 Resiliency & Auto-waiting: The framework strictly avoids hardcoded sleeps (Thread.sleep()). Instead, it relies entirely on Playwright's built-in web-first assertions (e.g., assertThat(locator).isVisible()), which automatically poll the DOM until elements reach an actionable state.
 
 Traceability & Debugging: A BaseTest class manages the browser lifecycle. It automatically starts Playwright Tracing before each test and saves a .zip trace file (containing snapshots, console logs, and network requests) to build/traces/. In a real-world scenario, this is usually configured to save traces only on test failure to save disk space.
+
+
+Task 1 (Option B): UI Automation (TypeScript)
+
+Located in the `ui-ts/` directory. This implementation demonstrates modern Playwright features like Fixtures and global setup.
+
+### Tech Stack
+* **Language:** TypeScript
+* **Engine:** Playwright Test
+* **Features:** Fixtures, Trace Viewer, Parallel Execution
+
+### Setup & Execution
+1.  **Navigate to the directory:**
+    ```bash
+    cd ui-ts
+    ```
+2.  **Install Dependencies:**
+    ```bash
+    npm install
+    npx playwright install --with-deps
+    ```
+3.  **Configure Environment:**
+    Create a `.env` file in the `ui-ts` folder based on the provided credentials:
+    ```properties
+    BASE_URL=https://www.saucedemo.com
+    STANDARD_USER=standard_user
+    PASSWORD=secret_sauce
+    ```
+4.  **Run Tests:**
+    ```bash
+    npx playwright test
+    ```
+    *To run in headed mode:* `npx playwright test --headed`
+
+### Modern Architecture Decisions
+* **Fixtures over BaseTest:** Instead of inheritance (Java style), this implementation uses **Playwright Fixtures** (`fixtures.ts`). This allows for Dependency Injection of Page Objects and automatic authentication state setup (`loggedInUser` fixture).
+* **Locators:** Defined as strict `Locator` types in constructors rather than string selectors, providing better type safety and autocompletion.
+
+---
+
 
 Task 2: Performance Testing (k6)
 Target API
